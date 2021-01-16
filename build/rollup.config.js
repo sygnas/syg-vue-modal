@@ -69,7 +69,7 @@ if (!argv.format || argv.format === 'es') {
     ...baseConfig,
     external,
     output: {
-      file: 'dist/vue-tabs.esm.js',
+      file: 'dist/vue-modal.esm.js',
       format: 'esm',
       exports: 'named',
     },
@@ -99,9 +99,9 @@ if (!argv.format || argv.format === 'cjs') {
     external,
     output: {
       compact: true,
-      file: 'dist/vue-tabs.ssr.js',
+      file: 'dist/vue-modal.ssr.js',
       format: 'cjs',
-      name: 'VueTabs',
+      name: 'VueModal',
       exports: 'named',
       globals,
     },
@@ -127,9 +127,9 @@ if (!argv.format || argv.format === 'iife') {
     external,
     output: {
       compact: true,
-      file: 'dist/vue-tabs.min.js',
+      file: 'dist/vue-modal.min.js',
       format: 'iife',
-      name: 'VueTabs',
+      name: 'VueModal',
       exports: 'named',
       globals,
     },
