@@ -11,8 +11,10 @@ Youtube埋め込みとかまったく実装していません。
 
 ## Release
 
+- 2021.04.07
+  - 親からスクロールさせるための関数 scroll() を追加。
 - 2021.01.16
-  - とりあえず作成
+  - とりあえず作成。
 
 ## Usage
 
@@ -30,7 +32,7 @@ npm install --save @sygnas/vue-modal
 
     <button @click.prevent="showModal">モーダル表示</button>
 
-    <vue-modal v-if="isShowModal" @close="closeModal">
+    <vue-modal v-if="isShowModal" @close="closeModal" ref="modal">
       モーダルの内容
     </vue-modal>
 
@@ -55,6 +57,13 @@ import VueTabs from '@sygnas/vue-tabs';
     methods:{
       showModal(){
         this.isShowModal = true;
+
+        setTimeout(()=>{
+          // ページ先頭にスクロール
+          // 0 : Y座標
+          // true: スムーススクロールするか
+          this.$refs.modal.scroll(0, true);
+        }, 100);
       },
       closeModal(){
         this.isShowModal = false;
@@ -87,6 +96,14 @@ import VueTabs from '@sygnas/vue-tabs';
 | classClose| 'c-modal__close-btn' | 閉じるボタのclass名 |
 | styleBgColor| 'rgba(0, 0, 0, .7)' | 背景色 |
 | styleZIndex| 10000 | モーダルの z-index |
+
+### Methods
+
+#### scroll(posY, isSmooth=true)
+
+指定座標`posY`にスクロールする。
+`isSmooth`に`true`を指定するとスムーススクロールになる。
+
 
 ### Events
 

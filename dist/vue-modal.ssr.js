@@ -111,6 +111,20 @@ var script = {
   methods: {
     closeModal: function closeModal() {
       this.$emit('close');
+    },
+
+    /**
+     * ページ内容が切り替わった時などに指定座標にスクロールさせる。
+     * 基本的には 0 を指定してトップに移動させる。
+     * 親から anime.js などを使ってスムーズにスクロールさせてもよい
+     * 親の this.$refs から this.$refs.modal.scroll(0); のように呼び出す
+     */
+    scroll: function scroll(posY) {
+      var isSmooth = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : false;
+      this.$refs.scrollContainer.scroll({
+        top: posY,
+        behavior: isSmooth ? 'smooth' : 'instant'
+      });
     }
   }
 };function normalizeComponent(template, style, script, scopeId, isFunctionalTemplate, moduleIdentifier /* server only */, shadowMode, createInjector, createInjectorSSR, createInjectorShadow) {
@@ -248,7 +262,7 @@ var __vue_staticRenderFns__ = [];
 
 var __vue_inject_styles__ = function __vue_inject_styles__(inject) {
   if (!inject) return;
-  inject("data-v-d78e85c0_0", {
+  inject("data-v-41815daf_0", {
     source: ".-input-css-2-modal-VkR4{z-index:var(--modal--z-index);position:fixed;left:0;top:0;width:100%;height:100%}.-input-css-2-modal__bg-3RZb{position:fixed;left:0;top:0;width:100%;height:100%;background-color:var(--modal--bg-color)}.-input-css-2-modal__slide-2b6o{position:absolute;left:0;top:0;width:100%;height:100%;overflow:auto}.-input-css-2-modal__content-1Kp7{position:relative;width:max-content;margin-left:auto;margin-right:auto}.-input-css-2-modal__close_btn-3C4N{z-index:1000;position:absolute;user-select:none;appearance:none;cursor:pointer;outline:0}",
     map: undefined,
     media: undefined
@@ -269,7 +283,7 @@ var __vue_inject_styles__ = function __vue_inject_styles__(inject) {
 var __vue_scope_id__ = undefined;
 /* module identifier */
 
-var __vue_module_identifier__ = "data-v-d78e85c0";
+var __vue_module_identifier__ = "data-v-41815daf";
 /* functional template */
 
 var __vue_is_functional_template__ = false;

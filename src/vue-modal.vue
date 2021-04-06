@@ -4,7 +4,7 @@
     <span :class="[$style.modal__bg, opt.classBg]"></span>
 
     <!-- overflow:auto でスクロールバーを右端に表示するためのラッパー -->
-    <div :class="[$style.modal__slide, opt.classSlide]" @click.prevent="closeModal">
+    <div :class="[$style.modal__slide, opt.classSlide]" @click.prevent="closeModal" ref="scrollContainer">
 
       <!-- 実際のコンテンツ幅を定義するためのコンテナ -->
       <div :class="[$style.modal__content, opt.classContent]" @click.stop="">
@@ -66,6 +66,18 @@ export default {
   methods: {
     closeModal() {
       this.$emit('close');
+    },
+    /**
+     * ページ内容が切り替わった時などに指定座標にスクロールさせる。
+     * 基本的には 0 を指定してトップに移動させる。
+     * 親から anime.js などを使ってスムーズにスクロールさせてもよい
+     * 親の this.$refs から this.$refs.modal.scroll(0); のように呼び出す
+     */
+    scroll(posY, isSmooth=false) {
+      this.$refs.scrollContainer.scroll({
+        top: posY,
+        behavior: isSmooth ? 'smooth' : 'instant',
+      });
     },
   },
 };
