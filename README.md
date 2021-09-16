@@ -84,14 +84,14 @@ import VueTabs from '@sygnas/vue-tabs';
 }
 ```
 
-### Options
+### Attributes
 
-#### opt
+#### option
 
 モーダルの外見に関する設定。
 
 ```html
-<vue-modal :opt="{closeBtnText:'CLOSE', styleBgColor:'rgba(255,255,255,.8)'}">
+<vue-modal :option="{closeBtnText:'CLOSE', styleBgColor:'rgba(255,255,255,.8)'}">
 ```
 
 | パラメーター | 初期値 | 説明 |
