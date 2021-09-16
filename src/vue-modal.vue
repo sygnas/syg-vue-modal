@@ -43,6 +43,10 @@ export default {
         return {};
       },
     },
+    closeHndl: {
+      type: Function,
+      default(){ return ()=>{}; }
+    },
   },
   data() {
     return {
@@ -65,7 +69,7 @@ export default {
   },
   methods: {
     closeModal() {
-      this.$emit('close');
+      this.closeHndl();
     },
     /**
      * ページ内容が切り替わった時などに指定座標にスクロールさせる。

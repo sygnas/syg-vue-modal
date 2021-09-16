@@ -87,6 +87,12 @@ var script = {
       default: function _default() {
         return {};
       }
+    },
+    closeHndl: {
+      type: Function,
+      default: function _default() {
+        return function () {};
+      }
     }
   },
   data: function data() {
@@ -110,7 +116,7 @@ var script = {
   },
   methods: {
     closeModal: function closeModal() {
-      this.$emit('close');
+      this.closeHndl();
     },
 
     /**
@@ -262,7 +268,7 @@ var __vue_staticRenderFns__ = [];
 
 var __vue_inject_styles__ = function __vue_inject_styles__(inject) {
   if (!inject) return;
-  inject("data-v-41815daf_0", {
+  inject("data-v-6a46d865_0", {
     source: ".-input-css-2-modal-VkR4{z-index:var(--modal--z-index);position:fixed;left:0;top:0;width:100%;height:100%}.-input-css-2-modal__bg-3RZb{position:fixed;left:0;top:0;width:100%;height:100%;background-color:var(--modal--bg-color)}.-input-css-2-modal__slide-2b6o{position:absolute;left:0;top:0;width:100%;height:100%;overflow:auto}.-input-css-2-modal__content-1Kp7{position:relative;width:max-content;margin-left:auto;margin-right:auto}.-input-css-2-modal__close_btn-3C4N{z-index:1000;position:absolute;user-select:none;appearance:none;cursor:pointer;outline:0}",
     map: undefined,
     media: undefined
@@ -283,7 +289,7 @@ var __vue_inject_styles__ = function __vue_inject_styles__(inject) {
 var __vue_scope_id__ = undefined;
 /* module identifier */
 
-var __vue_module_identifier__ = "data-v-41815daf";
+var __vue_module_identifier__ = "data-v-6a46d865";
 /* functional template */
 
 var __vue_is_functional_template__ = false;

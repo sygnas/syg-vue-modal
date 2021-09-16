@@ -42,6 +42,14 @@ var script = {
         return {};
       }
 
+    },
+    closeHndl: {
+      type: Function,
+
+      default() {
+        return () => {};
+      }
+
     }
   },
 
@@ -72,7 +80,7 @@ var script = {
 
   methods: {
     closeModal() {
-      this.$emit('close');
+      this.closeHndl();
     },
 
     /**
@@ -270,7 +278,7 @@ var __vue_staticRenderFns__ = [];
 
 const __vue_inject_styles__ = function (inject) {
   if (!inject) return;
-  inject("data-v-41815daf_0", {
+  inject("data-v-6a46d865_0", {
     source: ".-input-css-1-modal-FMbz{z-index:var(--modal--z-index);position:fixed;left:0;top:0;width:100%;height:100%}.-input-css-1-modal__bg-PaRl{position:fixed;left:0;top:0;width:100%;height:100%;background-color:var(--modal--bg-color)}.-input-css-1-modal__slide-1zTy{position:absolute;left:0;top:0;width:100%;height:100%;overflow:auto}.-input-css-1-modal__content-2dKc{position:relative;width:max-content;margin-left:auto;margin-right:auto}.-input-css-1-modal__close_btn-1o8b{z-index:1000;position:absolute;user-select:none;appearance:none;cursor:pointer;outline:0}",
     map: undefined,
     media: undefined

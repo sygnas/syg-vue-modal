@@ -11,6 +11,8 @@ Youtube埋め込みとかまったく実装していません。
 
 ## Release
 
+- 2021.09.16
+  - モーダルを閉じるイベント v-on:close を使わず、 v-bind:closeHndl に メソッドを渡す方法に変更。
 - 2021.04.07
   - 親からスクロールさせるための関数 scroll() を追加。
 - 2021.01.16
@@ -32,7 +34,7 @@ npm install --save @sygnas/vue-modal
 
     <button @click.prevent="showModal">モーダル表示</button>
 
-    <vue-modal v-if="isShowModal" @close="closeModal" ref="modal">
+    <vue-modal v-if="isShowModal" :closeHndl="closeModal" ref="modal">
       モーダルの内容
     </vue-modal>
 
@@ -84,9 +86,15 @@ import VueTabs from '@sygnas/vue-tabs';
 
 ### Options
 
-`<vue-modal>`の属性。
+#### opt
 
-| 属性 | 初期値 | 説明 |
+モーダルの外見に関する設定。
+
+```html
+<vue-modal :opt="{closeBtnText:'CLOSE', styleBgColor:'rgba(255,255,255,.8)'}">
+```
+
+| パラメーター | 初期値 | 説明 |
 | --- | --- | --- |
 | closeBtnText| 'X' | 閉じるボタンの内容。html可。 |
 | classModal| 'c-modal' | 全体のclass名 |
@@ -97,6 +105,24 @@ import VueTabs from '@sygnas/vue-tabs';
 | styleBgColor| 'rgba(0, 0, 0, .7)' | 背景色 |
 | styleZIndex| 10000 | モーダルの z-index |
 
+
+#### closeHndl
+
+モーダルの閉じるボタンが押された時に呼ばれるメソッドを指定。
+モーダル自身に閉じる機能は無く、親から `v-if` で制御する。
+
+```html
+<vue-modal v-if="isShowModal" :closeHndl="closeModal">
+```
+```javascript
+methods: {
+  closeModal(){
+    this.isShowModal = false;
+  },
+},
+```
+
+
 ### Methods
 
 #### scroll(posY, isSmooth=true)
@@ -104,14 +130,7 @@ import VueTabs from '@sygnas/vue-tabs';
 指定座標`posY`にスクロールする。
 `isSmooth`に`true`を指定するとスムーススクロールになる。
 
-
-### Events
-
-#### close
-
-閉じるボタンをトリガーに発行するイベント。
-vue-modal は自分自身の表示・非表示を管理しないので、このイベントを受け取った親側で非表示にする。
-
+記述方法は上記のサンプル参照。
 
 
 ## License
