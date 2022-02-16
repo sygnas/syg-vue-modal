@@ -1,13 +1,94 @@
+<script setup lang="ts">
+import { defineProps, withDefaults, ref, onMounted, onBeforeMount, onUnmounted } from 'vue';
+
+type TProps = {
+  opt?: {
+    closeBtnText?: string;
+    classModal?: string;
+    classBg?: string;
+    classSlide?: string;
+    classContent?: string;
+    classClose?: string;
+    styleBgColor?: string;
+    styleZIndex?: number;
+  },
+  handlClose?: () => void;
+};
+
+const props = withDefaults(defineProps<TProps>(), {
+  opt: () => {
+    return {
+      closeBtnText: 'X',
+      classModal: 'c-modal',
+      classBg: 'c-modal__bg',
+      classSlide: 'c-modal__slide',
+      classContent: 'c-modal__content',
+      classClose: 'c-modal__close-btn',
+      styleBgColor: 'rgba(0, 0, 0, .7)',
+      styleZIndex: 10000,
+    }
+  },
+});
+
+const modalStyle = ref({});
+const scrollContainer = ref<any>(null);
+
+/**
+ * 閉じる
+ */
+const closeModal = () => {
+  if( props.handlClose ){
+    props.handlClose();
+  }
+};
+
+/**
+  * ページ内容が切り替わった時などに指定座標にスクロールさせる。
+  * 基本的には 0 を指定してトップに移動させる。
+  * 親から anime.js などを使ってスムーズにスクロールさせてもよい
+  * 親の this.$refs から this.$refs.modal.scroll(0); のように呼び出す
+  */
+const scroll = (posY:number, isSmooth=false) => {
+  // if(typeof scrollContainer.value !== Element) return;
+
+  scrollContainer.value.scroll({
+    top: posY,
+    behavior: isSmooth ? 'smooth' : 'instant' as ScrollBehavior,
+  });
+};
+
+onMounted(() => {
+  // css変数を使って背景色と z-index を制御
+  modalStyle.value = {
+    '--modal--bg-color': props.opt.styleBgColor,
+    '--modal--z-index': props.opt.styleZIndex,
+  };
+});
+
+// マウント前後に <body> のスクロールを止める
+onBeforeMount(() => {
+  document.body.style.overflow = 'hidden';
+});
+
+onUnmounted(() => {
+  document.body.style.overflow = 'auto';
+});
+
+</script>
+
+
+////////////////////////////////////////////////////////////////////////////////
+
 <template>
-  <div :class="[$style.modal, opt.classModal]" :style="modalStyle">
+  <div :class="[$style.modal, props.opt.classModal]" :style="modalStyle">
     <!-- 背景 -->
-    <span :class="[$style.modal__bg, opt.classBg]"></span>
+    <span :class="[$style.modal__bg, props.opt.classBg]"></span>
 
     <!-- overflow:auto でスクロールバーを右端に表示するためのラッパー -->
-    <div :class="[$style.modal__slide, opt.classSlide]" @click.prevent="closeModal" ref="scrollContainer">
+    <div :class="[$style.modal__slide, props.opt.classSlide]" @click.prevent="closeModal" ref="scrollContainer">
 
       <!-- 実際のコンテンツ幅を定義するためのコンテナ -->
-      <div :class="[$style.modal__content, opt.classContent]" @click.stop="">
+      <div :class="[$style.modal__content, props.opt.classContent]" @click.stop="">
         <slot></slot>
       </div>
 
@@ -15,77 +96,12 @@
 
     <!-- 閉じるボタン -->
     <button
-      :class="[$style.modal__close_btn, opt.classClose]"
+      :class="[$style.modal__close_btn, props.opt.classClose]"
       @click.prevent="closeModal"
-      v-html="opt.closeBtnText"
+      v-html="props.opt.closeBtnText"
     ></button>
   </div>
 </template>
-
-////////////////////////////////////////////////////////////////////////////////
-<script>
-const defaultOption = {
-  closeBtnText: 'X',
-  classModal: 'c-modal',
-  classBg: 'c-modal__bg',
-  classSlide: 'c-modal__slide',
-  classContent: 'c-modal__content',
-  classClose: 'c-modal__close-btn',
-  styleBgColor: 'rgba(0, 0, 0, .7)',
-  styleZIndex: 10000,
-};
-
-export default {
-  props: {
-    option: {
-      type: Object,
-      default() {
-        return {};
-      },
-    },
-    closeHndl: {
-      type: Function,
-      default(){ return ()=>{}; }
-    },
-  },
-  data() {
-    return {
-      modalStyle: {},
-      opt: { ...defaultOption, ...this.option },
-    };
-  },
-  mounted() {
-    // css変数を使って背景色と z-index を制御
-    this.modalStyle = {
-      '--modal--bg-color': this.opt.styleBgColor,
-      '--modal--z-index': this.opt.styleZIndex,
-    };
-  },
-  beforeMount() {
-    document.body.style.overflow = 'hidden';
-  },
-  beforeDestroy() {
-    document.body.style.overflow = 'auto';
-  },
-  methods: {
-    closeModal() {
-      this.closeHndl();
-    },
-    /**
-     * ページ内容が切り替わった時などに指定座標にスクロールさせる。
-     * 基本的には 0 を指定してトップに移動させる。
-     * 親から anime.js などを使ってスムーズにスクロールさせてもよい
-     * 親の this.$refs から this.$refs.modal.scroll(0); のように呼び出す
-     */
-    scroll(posY, isSmooth=false) {
-      this.$refs.scrollContainer.scroll({
-        top: posY,
-        behavior: isSmooth ? 'smooth' : 'instant',
-      });
-    },
-  },
-};
-</script>
 
 ////////////////////////////////////////////////////////////////////////////////
 <style lang="css" module>
