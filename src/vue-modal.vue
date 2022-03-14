@@ -1,5 +1,7 @@
 <script setup lang="ts">
 import { defineProps, withDefaults, ref, onMounted, onBeforeMount, onUnmounted } from 'vue';
+import $style from './modal.module.css';
+
 
 type TProps = {
   opt?: {
@@ -102,45 +104,3 @@ onUnmounted(() => {
     ></button>
   </div>
 </template>
-
-////////////////////////////////////////////////////////////////////////////////
-<style lang="css" module>
-.modal {
-  z-index: var(--modal--z-index);
-  position: fixed;
-  left: 0;
-  top: 0;
-  width: 100%;
-  height: 100%;
-}
-.modal__bg {
-  position: fixed;
-  left: 0;
-  top: 0;
-  width: 100%;
-  height: 100%;
-  background-color: var(--modal--bg-color);
-}
-.modal__slide {
-  position: absolute;
-  left: 0;
-  top: 0;
-  width: 100%;
-  height: 100%;
-  overflow: auto;
-}
-.modal__content {
-  position: relative;
-  width: max-content;
-  margin-left: auto;
-  margin-right: auto;
-}
-.modal__close_btn {
-  z-index: 1000;
-  position: absolute;
-  user-select: none;
-  appearance: none;
-  cursor: pointer;
-  outline: none;
-}
-</style>
