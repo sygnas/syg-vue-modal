@@ -65,3 +65,4 @@ declare const _default: import("vue").DefineComponent<{
     };
 }>;
 export default _default;
+//# sourceMappingURL=vue-modal.vue.d.ts.map

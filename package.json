@@ -7,9 +7,13 @@
     ".": {
       "import": "./dist/vue-modal.es.js",
       "require": "./dist/vue-modal.es.js"
-    }
+    },
+    "./css": "./dist/style.css"
   },
   "types": "dist/index.d.ts",
+  "sideEffects": [
+    "*.css"
+  ],
   "author": "Hiroshi Fukuda <info.sygnas@gmail.com>",
   "license": "MIT",
   "private": false,
@@ -21,15 +25,16 @@
     "vue",
     "modal"
   ],
-  "sideEffects": false,
   "scripts": {
     "dev": "vite",
     "build": "vue-tsc --noEmit && vite build",
-    "buildtypes": "vue-tsc --emitDeclarationOnly --declaration"
+    "build:types": "vue-tsc --emitDeclarationOnly"
   },
   "dependencies": {},
   "devDependencies": {
+    "@types/css-modules": "^1.0.2",
     "@vitejs/plugin-vue": "^2.2.0",
+    "typed-css-modules": "^0.7.0",
     "typescript": "^4.5.4",
     "vite": "^2.8.0",
     "vue": "^3.2.31",
