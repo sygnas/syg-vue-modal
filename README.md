@@ -10,8 +10,12 @@ Youtube 埋め込みとかまったく実装していません。
 
 ## Release
 
+- 2022.04.18
+  - サンプルに `import "@sygnas/vue-modal/css";` 行を追加。
+  - オプションの初期値を読み込んで `Object.assign()` する方式に変更。
+  - モーダルを `<body>` の最後にマウントするよう変更。
 - 2022.03.15
-  - cssモジュールが適用されていないのを修正
+  - css モジュールが適用されていないのを修正
 - 2022.02.16
   - Vue3 対応
 - 2021.09.16
@@ -42,7 +46,12 @@ npm install --save @sygnas/vue-modal@^1.1.1
   <div id="app">
     <button @click.prevent="showModal">モーダル表示</button>
 
-    <vue-modal v-if="isShowModal" :handl-close="closeModal" ref="modal">
+    <vue-modal
+      v-if="isShowModal"
+      :handl-close="closeModal"
+      :opt="modalOption"
+      ref="modal"
+    >
       モーダルの内容
     </vue-modal>
   </div>
@@ -51,7 +60,19 @@ npm install --save @sygnas/vue-modal@^1.1.1
 
 ```javascript
 import { createApp } from "vue";
-import { vueModal } from "@sygnas/vue-modal";
+// vueModal本体とデフォルトオプション
+import { vueModal, vueModalOption } from "@sygnas/vue-modal";
+// vueModal用CSS
+import "@sygnas/vue-modal/css";
+
+// vueModal のオプションを変更する
+// デフォルト値のままでOKなら不要
+const modalOption = ref(
+  Object.assign({}, vueModalOption, {
+    closeBtnText: "CLOSE",
+    styleBgColor: "rgba(0,0,0,0.9)",
+  })
+);
 
 const app = createApp({
   components: {
@@ -95,11 +116,21 @@ const app = createApp({
 #### option
 
 モーダルの外見に関する設定。
+変更するにはデフォルト設定を読み込み、`Object.assign()` で変更部分と結合したものを使う。
 
 ```html
-<vue-modal
-  :opt="{closeBtnText:'CLOSE', styleBgColor:'rgba(255,255,255,.8)'}"
-></vue-modal>
+<vue-modal :opt="modalOption"></vue-modal>
+```
+
+```js
+import { vueModal, vueModalOption } from "@sygnas/vue-modal";
+
+const modalOption = ref(
+  Object.assign({}, vueModalOption, {
+    closeBtnText: "CLOSE",
+    styleBgColor: "rgba(0,0,0,0.9)",
+  })
+);
 ```
 
 | パラメーター | 初期値                 | 説明                                              |
