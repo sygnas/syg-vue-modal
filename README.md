@@ -150,7 +150,7 @@ const modalOption = ref(
 モーダル自身に閉じる機能は無く、親から `v-if` で制御する。
 
 ```html
-<vue-modal v-if="isShowModal" :handle-close="closeModal"></vue-modal>
+<vue-modal v-if="isShowModal" :handl-close="closeModal"></vue-modal>
 ```
 
 ```javascript
