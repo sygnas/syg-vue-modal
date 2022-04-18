@@ -1,37 +1,25 @@
 <script setup lang="ts">
 import { defineProps, withDefaults, ref, onMounted, onBeforeMount, onUnmounted } from 'vue';
+import { vueModalOption } from './defaults';
 import $style from './modal.module.css';
 
-
 type TProps = {
-  opt?: {
-    closeBtnText?: string;
-    classModal?: string;
-    classBg?: string;
-    classSlide?: string;
-    classContent?: string;
-    classClose?: string;
-    styleBgColor?: string;
-    styleZIndex?: number;
+  opt: {
+    closeBtnText: string;
+    classModal: string;
+    classBg: string;
+    classSlide: string;
+    classContent: string;
+    classClose: string;
+    styleBgColor: string;
+    styleZIndex: number;
   },
-  handlClose?: () => void;
+  handlClose: () => void;
 };
 
 const props = withDefaults(defineProps<TProps>(), {
-  opt: () => {
-    return {
-      closeBtnText: 'X',
-      classModal: 'c-modal',
-      classBg: 'c-modal__bg',
-      classSlide: 'c-modal__slide',
-      classContent: 'c-modal__content',
-      classClose: 'c-modal__close-btn',
-      styleBgColor: 'rgba(0, 0, 0, .7)',
-      styleZIndex: 10000,
-    }
-  },
+  opt: () => vueModalOption
 });
-
 const modalStyle = ref({});
 const scrollContainer = ref<any>(null);
 
@@ -65,6 +53,7 @@ onMounted(() => {
     '--modal--bg-color': props.opt.styleBgColor,
     '--modal--z-index': props.opt.styleZIndex,
   };
+  // console.log("option", props.opt);
 });
 
 // マウント前後に <body> のスクロールを止める
@@ -82,25 +71,27 @@ onUnmounted(() => {
 ////////////////////////////////////////////////////////////////////////////////
 
 <template>
-  <div :class="[$style.modal, props.opt.classModal]" :style="modalStyle">
-    <!-- 背景 -->
-    <span :class="[$style.modal__bg, props.opt.classBg]"></span>
+  <teleport to="body">
+    <div :class="[$style.modal, props.opt.classModal]" :style="modalStyle">
+      <!-- 背景 -->
+      <span :class="[$style.modal__bg, props.opt.classBg]"></span>
 
-    <!-- overflow:auto でスクロールバーを右端に表示するためのラッパー -->
-    <div :class="[$style.modal__slide, props.opt.classSlide]" @click.prevent="closeModal" ref="scrollContainer">
+      <!-- overflow:auto でスクロールバーを右端に表示するためのラッパー -->
+      <div :class="[$style.modal__slide, props.opt.classSlide]" @click.prevent="closeModal" ref="scrollContainer">
 
-      <!-- 実際のコンテンツ幅を定義するためのコンテナ -->
-      <div :class="[$style.modal__content, props.opt.classContent]" @click.stop="">
-        <slot></slot>
+        <!-- 実際のコンテンツ幅を定義するためのコンテナ -->
+        <div :class="[$style.modal__content, props.opt.classContent]" @click.stop="">
+          <slot></slot>
+        </div>
+
       </div>
 
+      <!-- 閉じるボタン -->
+      <button
+        :class="[$style.modal__close_btn, props.opt.classClose]"
+        @click.prevent="closeModal"
+        v-html="props.opt.closeBtnText"
+      ></button>
     </div>
-
-    <!-- 閉じるボタン -->
-    <button
-      :class="[$style.modal__close_btn, props.opt.classClose]"
-      @click.prevent="closeModal"
-      v-html="props.opt.closeBtnText"
-    ></button>
-  </div>
+  </teleport>
 </template>
