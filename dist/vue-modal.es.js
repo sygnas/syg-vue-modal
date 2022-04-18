@@ -1,4 +1,4 @@
-import { defineComponent, ref, onMounted, onBeforeMount, onUnmounted, openBlock, createBlock, Teleport, createElementVNode, normalizeClass, unref, normalizeStyle, withModifiers, renderSlot } from 'vue';
+import { defineComponent, ref, onMounted, onBeforeMount, onUnmounted, openBlock, createElementBlock, normalizeClass, unref, normalizeStyle, createElementVNode, withModifiers, renderSlot } from 'vue';
 
 const vueModalOption = {
   closeBtnText: "X",
@@ -53,35 +53,33 @@ const _sfc_main = /* @__PURE__ */ defineComponent({
       document.body.style.overflow = "auto";
     });
     return (_ctx, _cache) => {
-      return openBlock(), createBlock(Teleport, { to: "body" }, [
+      return openBlock(), createElementBlock("div", {
+        class: normalizeClass([unref($style).modal, props.opt.classModal]),
+        style: normalizeStyle(modalStyle.value)
+      }, [
+        createElementVNode("span", {
+          class: normalizeClass([unref($style).modal__bg, props.opt.classBg])
+        }, null, 2),
         createElementVNode("div", {
-          class: normalizeClass([unref($style).modal, props.opt.classModal]),
-          style: normalizeStyle(modalStyle.value)
+          class: normalizeClass([unref($style).modal__slide, props.opt.classSlide]),
+          onClick: withModifiers(closeModal, ["prevent"]),
+          ref_key: "scrollContainer",
+          ref: scrollContainer
         }, [
-          createElementVNode("span", {
-            class: normalizeClass([unref($style).modal__bg, props.opt.classBg])
-          }, null, 2),
           createElementVNode("div", {
-            class: normalizeClass([unref($style).modal__slide, props.opt.classSlide]),
-            onClick: withModifiers(closeModal, ["prevent"]),
-            ref_key: "scrollContainer",
-            ref: scrollContainer
+            class: normalizeClass([unref($style).modal__content, props.opt.classContent]),
+            onClick: _cache[0] || (_cache[0] = withModifiers(() => {
+            }, ["stop"]))
           }, [
-            createElementVNode("div", {
-              class: normalizeClass([unref($style).modal__content, props.opt.classContent]),
-              onClick: _cache[0] || (_cache[0] = withModifiers(() => {
-              }, ["stop"]))
-            }, [
-              renderSlot(_ctx.$slots, "default")
-            ], 2)
-          ], 10, _hoisted_1),
-          createElementVNode("button", {
-            class: normalizeClass([unref($style).modal__close_btn, props.opt.classClose]),
-            onClick: withModifiers(closeModal, ["prevent"]),
-            innerHTML: props.opt.closeBtnText
-          }, null, 10, _hoisted_2)
-        ], 6)
-      ]);
+            renderSlot(_ctx.$slots, "default")
+          ], 2)
+        ], 10, _hoisted_1),
+        createElementVNode("button", {
+          class: normalizeClass([unref($style).modal__close_btn, props.opt.classClose]),
+          onClick: withModifiers(closeModal, ["prevent"]),
+          innerHTML: props.opt.closeBtnText
+        }, null, 10, _hoisted_2)
+      ], 6);
     };
   }
 });

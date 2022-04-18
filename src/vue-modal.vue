@@ -71,27 +71,25 @@ onUnmounted(() => {
 ////////////////////////////////////////////////////////////////////////////////
 
 <template>
-  <teleport to="body">
-    <div :class="[$style.modal, props.opt.classModal]" :style="modalStyle">
-      <!-- 背景 -->
-      <span :class="[$style.modal__bg, props.opt.classBg]"></span>
+  <div :class="[$style.modal, props.opt.classModal]" :style="modalStyle">
+    <!-- 背景 -->
+    <span :class="[$style.modal__bg, props.opt.classBg]"></span>
 
-      <!-- overflow:auto でスクロールバーを右端に表示するためのラッパー -->
-      <div :class="[$style.modal__slide, props.opt.classSlide]" @click.prevent="closeModal" ref="scrollContainer">
+    <!-- overflow:auto でスクロールバーを右端に表示するためのラッパー -->
+    <div :class="[$style.modal__slide, props.opt.classSlide]" @click.prevent="closeModal" ref="scrollContainer">
 
-        <!-- 実際のコンテンツ幅を定義するためのコンテナ -->
-        <div :class="[$style.modal__content, props.opt.classContent]" @click.stop="">
-          <slot></slot>
-        </div>
-
+      <!-- 実際のコンテンツ幅を定義するためのコンテナ -->
+      <div :class="[$style.modal__content, props.opt.classContent]" @click.stop="">
+        <slot></slot>
       </div>
 
-      <!-- 閉じるボタン -->
-      <button
-        :class="[$style.modal__close_btn, props.opt.classClose]"
-        @click.prevent="closeModal"
-        v-html="props.opt.closeBtnText"
-      ></button>
     </div>
-  </teleport>
+
+    <!-- 閉じるボタン -->
+    <button
+      :class="[$style.modal__close_btn, props.opt.classClose]"
+      @click.prevent="closeModal"
+      v-html="props.opt.closeBtnText"
+    ></button>
+  </div>
 </template>
