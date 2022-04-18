@@ -1,4 +1,15 @@
-import { defineComponent, ref, onMounted, onBeforeMount, onUnmounted, openBlock, createElementBlock, normalizeClass, unref, normalizeStyle, createElementVNode, withModifiers, renderSlot } from 'vue';
+import { defineComponent, ref, onMounted, onBeforeMount, onUnmounted, openBlock, createBlock, Teleport, createElementVNode, normalizeClass, unref, normalizeStyle, withModifiers, renderSlot } from 'vue';
+
+const vueModalOption = {
+  closeBtnText: "X",
+  classModal: "c-modal",
+  classBg: "c-modal__bg",
+  classSlide: "c-modal__slide",
+  classContent: "c-modal__content",
+  classClose: "c-modal__close-btn",
+  styleBgColor: "rgba(0, 0, 0, .7)",
+  styleZIndex: 1e4
+};
 
 const modal = "_modal_2z4x2_1";
 const modal__bg = "_modal__bg_2z4x2_9";
@@ -17,18 +28,7 @@ const _hoisted_1 = ["onClick"];
 const _hoisted_2 = ["onClick", "innerHTML"];
 const _sfc_main = /* @__PURE__ */ defineComponent({
   props: {
-    opt: { default: () => {
-      return {
-        closeBtnText: "X",
-        classModal: "c-modal",
-        classBg: "c-modal__bg",
-        classSlide: "c-modal__slide",
-        classContent: "c-modal__content",
-        classClose: "c-modal__close-btn",
-        styleBgColor: "rgba(0, 0, 0, .7)",
-        styleZIndex: 1e4
-      };
-    } },
+    opt: { default: () => vueModalOption },
     handlClose: null
   },
   setup(__props) {
@@ -53,36 +53,38 @@ const _sfc_main = /* @__PURE__ */ defineComponent({
       document.body.style.overflow = "auto";
     });
     return (_ctx, _cache) => {
-      return openBlock(), createElementBlock("div", {
-        class: normalizeClass([unref($style).modal, props.opt.classModal]),
-        style: normalizeStyle(modalStyle.value)
-      }, [
-        createElementVNode("span", {
-          class: normalizeClass([unref($style).modal__bg, props.opt.classBg])
-        }, null, 2),
+      return openBlock(), createBlock(Teleport, { to: "body" }, [
         createElementVNode("div", {
-          class: normalizeClass([unref($style).modal__slide, props.opt.classSlide]),
-          onClick: withModifiers(closeModal, ["prevent"]),
-          ref_key: "scrollContainer",
-          ref: scrollContainer
+          class: normalizeClass([unref($style).modal, props.opt.classModal]),
+          style: normalizeStyle(modalStyle.value)
         }, [
+          createElementVNode("span", {
+            class: normalizeClass([unref($style).modal__bg, props.opt.classBg])
+          }, null, 2),
           createElementVNode("div", {
-            class: normalizeClass([unref($style).modal__content, props.opt.classContent]),
-            onClick: _cache[0] || (_cache[0] = withModifiers(() => {
-            }, ["stop"]))
+            class: normalizeClass([unref($style).modal__slide, props.opt.classSlide]),
+            onClick: withModifiers(closeModal, ["prevent"]),
+            ref_key: "scrollContainer",
+            ref: scrollContainer
           }, [
-            renderSlot(_ctx.$slots, "default")
-          ], 2)
-        ], 10, _hoisted_1),
-        createElementVNode("button", {
-          class: normalizeClass([unref($style).modal__close_btn, props.opt.classClose]),
-          onClick: withModifiers(closeModal, ["prevent"]),
-          innerHTML: props.opt.closeBtnText
-        }, null, 10, _hoisted_2)
-      ], 6);
+            createElementVNode("div", {
+              class: normalizeClass([unref($style).modal__content, props.opt.classContent]),
+              onClick: _cache[0] || (_cache[0] = withModifiers(() => {
+              }, ["stop"]))
+            }, [
+              renderSlot(_ctx.$slots, "default")
+            ], 2)
+          ], 10, _hoisted_1),
+          createElementVNode("button", {
+            class: normalizeClass([unref($style).modal__close_btn, props.opt.classClose]),
+            onClick: withModifiers(closeModal, ["prevent"]),
+            innerHTML: props.opt.closeBtnText
+          }, null, 10, _hoisted_2)
+        ], 6)
+      ]);
     };
   }
 });
 
-export { _sfc_main as vueModal };
+export { _sfc_main as vueModal, vueModalOption };
 //# sourceMappingURL=vue-modal.es.js.map
