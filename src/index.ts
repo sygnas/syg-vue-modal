@@ -1,4 +1,4 @@
-import vueModal from './vue-modal.vue';
-import { vueModalOption } from './defaults';
+import VueModal from './VueModal.vue';
+import { useModalControl } from './useModalControl';
 
-export {vueModal, vueModalOption }
+export { VueModal, useModalControl };
