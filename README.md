@@ -4,25 +4,16 @@ Vue で簡易的なモーダルを実装（自分用）。
 
 ## Description
 
-Vue.js でシンプルなモーダルウィンドウを使いたい人向け。
-css も最低限のものしか指定していない。
-Youtube 埋め込みとかまったく実装していません。
+- Vue3 でシンプルなモーダルウィンドウを使いたい人向け。
+- css も最低限のものしか指定していない。
+- Youtube 埋め込みとかまったく実装していません。
+- モーダルの開閉は useModalControl() で作成したインスタンス経由で行う。
 
-## Release
+## Latest Release
 
-- 2022.04.18
-  - サンプルに `import "@sygnas/vue-modal/css";` 行を追加。
-  - オプションの初期値を読み込んで `Object.assign()` する方式に変更。
-- 2022.03.15
-  - css モジュールが適用されていないのを修正
-- 2022.02.16
-  - Vue3 対応
-- 2021.09.16
-  - モーダルを閉じるイベント v-on:close を使わず、 v-bind:closeHndl に メソッドを渡す方法に変更。
-- 2021.04.07
-  - 親からスクロールさせるための関数 scroll() を追加。
-- 2021.01.16
-  - とりあえず作成。
+- 2022.06.11 : ver.3.0.0
+  - useModalControl() を使う方式に刷新。
+  - それ以前との互換性なし。
 
 ## Usage
 
@@ -32,7 +23,7 @@ Youtube 埋め込みとかまったく実装していません。
 npm install --save @sygnas/vue-modal
 ```
 
-Vue2 用は古いバージョンを使う。
+Vue2 は過去バージョンを使う。
 
 ```sh
 npm install --save @sygnas/vue-modal@^1.1.1
@@ -45,12 +36,7 @@ npm install --save @sygnas/vue-modal@^1.1.1
   <div id="app">
     <button @click.prevent="showModal">モーダル表示</button>
 
-    <vue-modal
-      v-if="isShowModal"
-      :handl-close="closeModal"
-      :opt="modalOption"
-      ref="modal"
-    >
+    <vue-modal id="modal-1" :option="modalOption">
       モーダルの内容
     </vue-modal>
   </div>
@@ -59,43 +45,46 @@ npm install --save @sygnas/vue-modal@^1.1.1
 
 ```javascript
 import { createApp } from "vue";
-// vueModal本体とデフォルトオプション
-import { vueModal, vueModalOption } from "@sygnas/vue-modal";
-// vueModal用CSS
+// VueModal本体とデフォルトオプション
+import { VueModal, useModalControl } from "@sygnas/vue-modal";
+// モーダル用CSS
 import "@sygnas/vue-modal/css";
 
-// vueModal のオプションを変更する
-// デフォルト値のままでOKなら不要
-const modalOption = ref(
-  Object.assign({}, vueModalOption, {
-    closeBtnText: "CLOSE",
-    styleBgColor: "rgba(0,0,0,0.9)",
-  })
-);
+// モーダルのオプション
+const modalOption = {
+  closeBtnText: "CLOSE",
+  styleBgColor: "rgba(0,0,0,0.9)",
+};
+
+// モーダルコントローラー
+// <vue-modal> に付与した id と同じ文字列を与える
+// モーダルの開閉、スクロール、開閉時イベント設定などはコントローラー経由で行う
+const modalControl = useModalControl('modal-1', {
+  onOpen: (id) => {
+    console.log('modal open');
+  },
+  onClose: (id) => {
+    console.log('modal close');
+  },
+});
 
 const app = createApp({
   components: {
-    vueModal,
+    VueModal,
   },
   data() {
     return {
-      isShowModal: false,
+      modalOption,
     };
   },
   methods: {
     showModal() {
-      this.isShowModal = true;
-
+      // モーダル開く
+      modalControl.open();
+      // 0.1秒後にページ先頭にスムーススクロール
       setTimeout(() => {
-        // ページ先頭にスクロール
-        // 0 : Y座標
-        // true: スムーススクロールするか
-        this.$refs.modal.scroll(0, true);
+        modalControl.scroll(0, true);
       }, 100);
-    },
-    closeModal() {
-      this.isShowModal = false;
-      console.log("閉じた");
     },
   },
 });
@@ -115,21 +104,16 @@ const app = createApp({
 #### option
 
 モーダルの外見に関する設定。
-変更するにはデフォルト設定を読み込み、`Object.assign()` で変更部分と結合したものを使う。
 
 ```html
 <vue-modal :opt="modalOption"></vue-modal>
 ```
 
 ```js
-import { vueModal, vueModalOption } from "@sygnas/vue-modal";
-
-const modalOption = ref(
-  Object.assign({}, vueModalOption, {
-    closeBtnText: "CLOSE",
-    styleBgColor: "rgba(0,0,0,0.9)",
-  })
-);
+const modalOption = {
+  closeBtnText: "CLOSE",
+  styleBgColor: "rgba(0,0,0,0.9)",
+};
 ```
 
 | パラメーター | 初期値                 | 説明                                              |
@@ -142,33 +126,81 @@ const modalOption = ref(
 | classClose   | 'c-modal\_\_close-btn' | 閉じるボタの class 名                             |
 | styleBgColor | 'rgba(0, 0, 0, .7)'    | 背景色                                            |
 | styleZIndex  | 10000                  | モーダルの z-index                                |
+| transitionBaseName | 'syg-modal-fade' | &lt;transition name=""&gt; の指定 |
 
-#### handl-close
 
-モーダルの閉じるボタンが押された時に呼ばれるメソッドを指定。
-モーダル自身に閉じる機能は無く、親から `v-if` で制御する。
+## Control
 
-```html
-<vue-modal v-if="isShowModal" :handl-close="closeModal"></vue-modal>
+`useModalControl()` でインスタンスを作成し、開閉などはインスタンス経由で行う。
+
+```js
+const modalControl = useModalControl(id, option);
+modalControl.open();
+modalControl.scroll(1);
 ```
 
-```javascript
-methods: {
-  closeModal(){
-    this.isShowModal = false;
+### useModalControl(id, option)
+
+| 引数 | 初期値 | 説明 |
+| --- | --- | --- |
+| id | undefined | 【必須】&lt;vue-modal id="`モーダルID`"&gt; と同じ文字列 |
+| option | undefined | 開閉時に実行する関数を登録。`{onOpen, opClose}` |
+
+```js
+const modalControl = useModalControl('modal-1', {
+  onOpen: (id) => {
+    console.log('modal open');
   },
-},
+  onClose: (id) => {
+    console.log('modal close');
+  },
+});
 ```
 
-### Methods
+### open()
 
-#### scroll(posY, isSmooth=true)
+モーダルを開く。
 
-指定座標`posY`にスクロールする。
-`isSmooth`に`true`を指定するとスムーススクロールになる。
+```js
+modalControl.open();
+```
 
-記述方法は上記のサンプル参照。
+### close()
+
+モーダルを閉じる。
+`<vue-modal>` 自身で閉じるので使う機会は少ない。
+
+```js
+modalControl.close();
+```
+
+### scroll(posY, isSmooth = false)
+
+指定座標 `posY` にスクロールする。
+`isSmooth` に `true` を指定するとスムーススクロールになる。
+
+```js
+modalControl.scroll(0, true);
+```
 
 ## License
 
 MIT
+
+## Release
+
+- 2022.06.11 : ver.3.0.0
+  - useModalControl() を使う方式に刷新。
+- 2022.04.18
+  - サンプルに `import "@sygnas/vue-modal/css";` 行を追加。
+  - オプションの初期値を読み込んで `Object.assign()` する方式に変更。
+- 2022.03.15
+  - css モジュールが適用されていないのを修正
+- 2022.02.16
+  - Vue3 対応
+- 2021.09.16
+  - モーダルを閉じるイベント v-on:close を使わず、 v-bind:closeHndl に メソッドを渡す方法に変更。
+- 2021.04.07
+  - 親からスクロールさせるための関数 scroll() を追加。
+- 2021.01.16
+  - とりあえず作成。
