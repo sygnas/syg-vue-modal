@@ -46,7 +46,7 @@ const useModalControl = (id: string, opt?: TControlOption) => {
   watch(isOpen, (isOpenNext: boolean) => {
     if (isOpenNext && opt && opt.onOpen !== undefined) {
       opt.onOpen($_modalState.id);
-    } else if (opt && opt.onClose !== undefined) {
+    } else if (!isOpenNext && opt && opt.onClose !== undefined) {
       opt.onClose($_modalState.id);
     }
   });

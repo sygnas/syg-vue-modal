@@ -11,6 +11,8 @@ Vue で簡易的なモーダルを実装（自分用）。
 
 ## Latest Release
 
+- 2022.06.12 : ver.3.0.1
+  - onClose() を実行する条件を修正
 - 2022.06.11 : ver.3.0.0
   - useModalControl() を使う方式に刷新。
   - それ以前との互換性なし。
@@ -189,8 +191,6 @@ MIT
 
 ## Release
 
-- 2022.06.11 : ver.3.0.0
-  - useModalControl() を使う方式に刷新。
 - 2022.04.18
   - サンプルに `import "@sygnas/vue-modal/css";` 行を追加。
   - オプションの初期値を読み込んで `Object.assign()` する方式に変更。

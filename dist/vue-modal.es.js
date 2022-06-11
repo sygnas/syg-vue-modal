@@ -18,7 +18,7 @@ const useModalControl = (id, opt) => {
   watch(isOpen, (isOpenNext) => {
     if (isOpenNext && opt && opt.onOpen !== void 0) {
       opt.onOpen($_modalState.id);
-    } else if (opt && opt.onClose !== void 0) {
+    } else if (!isOpenNext && opt && opt.onClose !== void 0) {
       opt.onClose($_modalState.id);
     }
   });
