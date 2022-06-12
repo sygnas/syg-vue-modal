@@ -11,8 +11,9 @@ Vue で簡易的なモーダルを実装（自分用）。
 
 ## Latest Release
 
-- 2022.06.12 : ver.3.0.1
+- 2022.06.12 : ver.3.0.2
   - onClose() を実行する条件を修正
+  - type TModalOption を export に追加
 - 2022.06.11 : ver.3.0.0
   - useModalControl() を使う方式に刷新。
   - それ以前との互換性なし。
