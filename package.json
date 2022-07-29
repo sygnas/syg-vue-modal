@@ -8,10 +8,9 @@
       "import": "./dist/vue-modal.es.js",
       "require": "./dist/vue-modal.es.js"
     },
-    "./css": "./dist/style.css",
-    "./types": "./src/types.ts"
+    "./css": "./dist/style.css"
   },
-  "types": "dist/index.d.ts",
+  "types": "src/types.ts",
   "sideEffects": [
     "*.css"
   ],
