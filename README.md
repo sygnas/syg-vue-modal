@@ -11,9 +11,11 @@ Vue で簡易的なモーダルを実装（自分用）。
 
 ## Latest Release
 
+- 2022.07.29 : ver.3.0.3
+  - README.md に isOpen の説明を追加。
 - 2022.06.12 : ver.3.0.2
   - onClose() を実行する条件を修正
-  - type TModalOption を export に追加
+  - type TModalOption を export に追加。
 - 2022.06.11 : ver.3.0.0
   - useModalControl() を使う方式に刷新。
   - それ以前との互換性なし。
@@ -159,6 +161,15 @@ const modalControl = useModalControl('modal-1', {
   },
 });
 ```
+
+### isOpen
+
+モーダルの開閉状態。
+
+```js
+console.log(modalControl.isOpen); // true / false
+```
+
 
 ### open()
 
