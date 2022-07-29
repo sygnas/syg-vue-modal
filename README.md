@@ -112,7 +112,7 @@ const app = createApp({
 モーダルの外見に関する設定。
 
 ```html
-<vue-modal :opt="modalOption"></vue-modal>
+<vue-modal :option="modalOption"></vue-modal>
 ```
 
 ```js
