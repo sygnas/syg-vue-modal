@@ -1,6 +1,6 @@
 {
   "name": "@sygnas/vue-modal",
-  "version": "3.0.3",
+  "version": "3.0.4",
   "main": "dist/vue-modal.cjs.js",
   "module": "dist/vue-modal.es.js",
   "exports": {
@@ -8,7 +8,8 @@
       "import": "./dist/vue-modal.es.js",
       "require": "./dist/vue-modal.es.js"
     },
-    "./css": "./dist/style.css"
+    "./css": "./dist/style.css",
+    "./types": "./src/types.ts"
   },
   "types": "dist/index.d.ts",
   "sideEffects": [
