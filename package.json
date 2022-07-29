@@ -1,6 +1,6 @@
 {
   "name": "@sygnas/vue-modal",
-  "version": "3.0.5",
+  "version": "3.0.6",
   "main": "dist/vue-modal.cjs.js",
   "module": "dist/vue-modal.es.js",
   "exports": {
