@@ -17,7 +17,6 @@ const defaultOption: TModalOption = {
   classSlide: "c-modal__slide",
   classContent: "c-modal__content",
   classClose: "c-modal__close-btn",
-  styleBgColor: "rgba(0, 0, 0, .7)",
   styleZIndex: 10000,
   transitionBaseName: "syg-modal-fade",
 };
@@ -32,8 +31,7 @@ const opt = computed<TModalOption>(() => {
 // css変数を使って背景色と z-index を制御
 const modalStyle = ref({});
 modalStyle.value = {
-  "--modal--bg-color": opt.value.styleBgColor,
-  "--modal--z-index": opt.value.styleZIndex,
+  zIndex: `var(--modal--z-index, ${opt.value.styleZIndex})`,
 }
 
 // スクロールコンテナ`slide`、内容物コンテナ`content`

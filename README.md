@@ -11,6 +11,9 @@ Vue で簡易的なモーダルを実装（自分用）。
 
 ## Latest Release
 
+- 2022.11.07 : ver.3.1.0
+  - TModalOption から styleBgColor を削除
+  - 様々なスタイルを CSS 変数に対応
 - 2022.07.29 : ver.3.0.4
   - README.md に isOpen の説明を追加。
   - package.json に types を追加。
@@ -42,9 +45,7 @@ npm install --save @sygnas/vue-modal@^1.1.1
   <div id="app">
     <button @click.prevent="showModal">モーダル表示</button>
 
-    <vue-modal id="modal-1" :option="modalOption">
-      モーダルの内容
-    </vue-modal>
+    <vue-modal id="modal-1" :option="modalOption"> モーダルの内容 </vue-modal>
   </div>
 </section>
 ```
@@ -65,12 +66,12 @@ const modalOption = {
 // モーダルコントローラー
 // <vue-modal> に付与した id と同じ文字列を与える
 // モーダルの開閉、スクロール、開閉時イベント設定などはコントローラー経由で行う
-const modalControl = useModalControl('modal-1', {
+const modalControl = useModalControl("modal-1", {
   onOpen: (id) => {
-    console.log('modal open');
+    console.log("modal open");
   },
   onClose: (id) => {
-    console.log('modal close');
+    console.log("modal close");
   },
 });
 
@@ -122,18 +123,16 @@ const modalOption = {
 };
 ```
 
-| パラメーター | 初期値                 | 説明                                              |
-| ------------ | ---------------------- | ------------------------------------------------- |
-| closeBtnText | 'X'                    | 閉じるボタンの内容。html 可。                     |
-| classModal   | 'c-modal'              | 全体の class 名                                   |
-| classBg      | 'c-modal\_\_bg'        | 背景の class 名                                   |
-| classSlide   | 'c-modal\_\_slide'     | 右端にスクロールバーを表示するコンテナの class 名 |
-| classContent | 'c-modal\_\_content'   | 内容コンテナの class 名                           |
-| classClose   | 'c-modal\_\_close-btn' | 閉じるボタの class 名                             |
-| styleBgColor | 'rgba(0, 0, 0, .7)'    | 背景色                                            |
-| styleZIndex  | 10000                  | モーダルの z-index                                |
-| transitionBaseName | 'syg-modal-fade' | &lt;transition name=""&gt; の指定 |
-
+| パラメーター       | 初期値                 | 説明                                              |
+| ------------------ | ---------------------- | ------------------------------------------------- |
+| closeBtnText       | 'X'                    | 閉じるボタンの内容。html 可。                     |
+| classModal         | 'c-modal'              | 全体の class 名                                   |
+| classBg            | 'c-modal\_\_bg'        | 背景の class 名                                   |
+| classSlide         | 'c-modal\_\_slide'     | 右端にスクロールバーを表示するコンテナの class 名 |
+| classContent       | 'c-modal\_\_content'   | 内容コンテナの class 名                           |
+| classClose         | 'c-modal\_\_close-btn' | 閉じるボタの class 名                             |
+| styleZIndex        | 10000                  | モーダルの z-index                                |
+| transitionBaseName | 'syg-modal-fade'       | &lt;transition name=""&gt; の指定                 |
 
 ## Control
 
@@ -147,18 +146,18 @@ modalControl.scroll(1);
 
 ### useModalControl(id, option)
 
-| 引数 | 初期値 | 説明 |
-| --- | --- | --- |
-| id | undefined | 【必須】&lt;vue-modal id="`モーダルID`"&gt; と同じ文字列 |
-| option | undefined | 開閉時に実行する関数を登録。`{onOpen, opClose}` |
+| 引数   | 初期値    | 説明                                                     |
+| ------ | --------- | -------------------------------------------------------- |
+| id     | undefined | 【必須】&lt;vue-modal id="`モーダルID`"&gt; と同じ文字列 |
+| option | undefined | 開閉時に実行する関数を登録。`{onOpen, opClose}`          |
 
 ```js
-const modalControl = useModalControl('modal-1', {
+const modalControl = useModalControl("modal-1", {
   onOpen: (id) => {
-    console.log('modal open');
+    console.log("modal open");
   },
   onClose: (id) => {
-    console.log('modal close');
+    console.log("modal close");
   },
 });
 ```
@@ -170,7 +169,6 @@ const modalControl = useModalControl('modal-1', {
 ```js
 console.log(modalControl.isOpen); // true / false
 ```
-
 
 ### open()
 

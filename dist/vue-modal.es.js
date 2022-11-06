@@ -46,11 +46,11 @@ const useModalControl = (id, opt) => {
   return { open, close, scroll, setScrollContainer, isOpen };
 };
 
-const modal = "_modal_569np_1";
-const modal__bg = "_modal__bg_569np_9";
-const modal__slide = "_modal__slide_569np_17";
-const modal__content = "_modal__content_569np_28";
-const modal__close_btn = "_modal__close_btn_569np_32";
+const modal = "_modal_e1eb1_1";
+const modal__bg = "_modal__bg_e1eb1_8";
+const modal__slide = "_modal__slide_e1eb1_16";
+const modal__content = "_modal__content_e1eb1_27";
+const modal__close_btn = "_modal__close_btn_e1eb1_31";
 var $style = {
 	modal: modal,
 	modal__bg: modal__bg,
@@ -76,7 +76,6 @@ const _sfc_main = /* @__PURE__ */ defineComponent({
       classSlide: "c-modal__slide",
       classContent: "c-modal__content",
       classClose: "c-modal__close-btn",
-      styleBgColor: "rgba(0, 0, 0, .7)",
       styleZIndex: 1e4,
       transitionBaseName: "syg-modal-fade"
     };
@@ -85,8 +84,7 @@ const _sfc_main = /* @__PURE__ */ defineComponent({
     });
     const modalStyle = ref({});
     modalStyle.value = {
-      "--modal--bg-color": opt.value.styleBgColor,
-      "--modal--z-index": opt.value.styleZIndex
+      zIndex: `var(--modal--z-index, ${opt.value.styleZIndex})`
     };
     const scrollContainer = ref(null);
     const contentContainer = ref(null);

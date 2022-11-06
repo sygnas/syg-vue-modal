@@ -5,7 +5,6 @@ type TModalOption = {
   classSlide?: string;
   classContent?: string;
   classClose?: string;
-  styleBgColor?: string;
   styleZIndex?: number;
   transitionBaseName?: string;
 };
