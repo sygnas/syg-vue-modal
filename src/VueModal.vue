@@ -19,6 +19,7 @@ const defaultOption: TModalOption = {
   classClose: "c-modal__close-btn",
   styleZIndex: 10000,
   transitionBaseName: "syg-modal-fade",
+  autoAlign: true,
 };
 
 // プロパティ
@@ -38,6 +39,16 @@ modalStyle.value = {
 const scrollContainer = ref<HTMLElement | null>(null);
 const contentContainer = ref<HTMLElement | null>(null);
 
+
+/**
+ * .c-modal__slide の align-items を設定
+ */
+const setScrollContainerAlign = (state:'flex-start' | 'center') => {
+  const scrollCon = scrollContainer.value;
+  if (scrollCon === null) return;
+  scrollCon.style.alignItems = state;
+}
+
 /**
  * 内容物の align 変更
  * `slide`より`content`が大きいと align-items:flex-start、それ以外は center にする
@@ -49,9 +60,9 @@ const changeAlignItems = () => {
   if (scrollCon === null || contentCon === null) return;
 
   if (scrollCon.clientHeight < contentCon.clientHeight) {
-    scrollCon.style.alignItems = "flex-start";
+    setScrollContainerAlign("flex-start");
   } else {
-    scrollCon.style.alignItems = "center";
+    setScrollContainerAlign("center");
   }
 };
 
@@ -64,11 +75,20 @@ let intervalId: number = 0;
 const modalControl = useModalControl(props.id, {
   onOpen: (id: string) => {
     modalControl.setScrollContainer(scrollContainer);
-    setTimeout(changeAlignItems, 50);
-    intervalId = setInterval(changeAlignItems, 500);
+
+    if(opt.value.autoAlign){
+      setTimeout(changeAlignItems, 50);
+      intervalId = setInterval(changeAlignItems, 500);
+    }else{
+      setTimeout(()=>{
+        setScrollContainerAlign("flex-start");
+      }, 50);
+    }
   },
   onClose: (id: string) => {
-    clearInterval(intervalId);
+    if(opt.value.autoAlign){
+      clearInterval(intervalId);
+    }
   },
 });
 

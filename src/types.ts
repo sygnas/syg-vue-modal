@@ -7,6 +7,7 @@ type TModalOption = {
   classClose?: string;
   styleZIndex?: number;
   transitionBaseName?: string;
+  autoAlign?: boolean;
 };
 
 type TControlOption = {

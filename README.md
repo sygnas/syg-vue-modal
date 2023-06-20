@@ -11,6 +11,8 @@ Vue で簡易的なモーダルを実装（自分用）。
 
 ## Latest Release
 
+- 2023.06.20 : ver.3.2.0
+  - autoAlign オプションを追加
 - 2022.11.07 : ver.3.1.0
   - TModalOption から styleBgColor を削除
   - 様々なスタイルを CSS 変数に対応
@@ -133,6 +135,7 @@ const modalOption = {
 | classClose         | 'c-modal\_\_close-btn' | 閉じるボタの class 名                             |
 | styleZIndex        | 10000                  | モーダルの z-index                                |
 | transitionBaseName | 'syg-modal-fade'       | &lt;transition name=""&gt; の指定                 |
+| autoAlign          | true                   | コンテンツの高さ ＜ 画面の高さ の時に align-items:center を自動で行うか |
 
 ## Control
 

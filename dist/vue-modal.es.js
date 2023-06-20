@@ -77,7 +77,8 @@ const _sfc_main = /* @__PURE__ */ defineComponent({
       classContent: "c-modal__content",
       classClose: "c-modal__close-btn",
       styleZIndex: 1e4,
-      transitionBaseName: "syg-modal-fade"
+      transitionBaseName: "syg-modal-fade",
+      autoAlign: true
     };
     const opt = computed(() => {
       return Object.assign({}, defaultOption, props.option);
@@ -88,26 +89,40 @@ const _sfc_main = /* @__PURE__ */ defineComponent({
     };
     const scrollContainer = ref(null);
     const contentContainer = ref(null);
+    const setScrollContainerAlign = (state) => {
+      const scrollCon = scrollContainer.value;
+      if (scrollCon === null)
+        return;
+      scrollCon.style.alignItems = state;
+    };
     const changeAlignItems = () => {
       const scrollCon = scrollContainer.value;
       const contentCon = contentContainer.value;
       if (scrollCon === null || contentCon === null)
         return;
       if (scrollCon.clientHeight < contentCon.clientHeight) {
-        scrollCon.style.alignItems = "flex-start";
+        setScrollContainerAlign("flex-start");
       } else {
-        scrollCon.style.alignItems = "center";
+        setScrollContainerAlign("center");
       }
     };
     let intervalId = 0;
     const modalControl = useModalControl(props.id, {
       onOpen: (id) => {
         modalControl.setScrollContainer(scrollContainer);
-        setTimeout(changeAlignItems, 50);
-        intervalId = setInterval(changeAlignItems, 500);
+        if (opt.value.autoAlign) {
+          setTimeout(changeAlignItems, 50);
+          intervalId = setInterval(changeAlignItems, 500);
+        } else {
+          setTimeout(() => {
+            setScrollContainerAlign("flex-start");
+          }, 50);
+        }
       },
       onClose: (id) => {
-        clearInterval(intervalId);
+        if (opt.value.autoAlign) {
+          clearInterval(intervalId);
+        }
       }
     });
     const isOpen = computed(() => modalControl.isOpen.value);
