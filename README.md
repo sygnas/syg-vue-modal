@@ -55,12 +55,12 @@ npm install --save @sygnas/vue-modal@^1.1.1
 ```javascript
 import { createApp } from "vue";
 // VueModal本体とデフォルトオプション
-import { VueModal, useModalControl } from "@sygnas/vue-modal";
+import { VueModal, useModalControl, TModalOption } from "@sygnas/vue-modal";
 // モーダル用CSS
 import "@sygnas/vue-modal/css";
 
 // モーダルのオプション
-const modalOption = {
+const modalOption = ref<TModalOption>({
   closeBtnText: "CLOSE",
   styleBgColor: "rgba(0,0,0,0.9)",
 };
